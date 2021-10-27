@@ -9,5 +9,24 @@ main{
     border-radius: 50%;
     color: white;
     font-size: 10vh;
-    border: solid white
+    border: solid white;
+}
+.number-grid{
+    background-color: coral;
+    font-size: 2em;
+}
+.number-slot{
+    width: 100px;
+    border: none
+}
+span{
+    color: cornflowerblue;
+    border: solid cornflowerblue
+}
+h1{
+    color: white;
+}
+button{
+    border: solid coral;
+    color: coral
 }
