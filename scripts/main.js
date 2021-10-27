@@ -16,7 +16,7 @@ function generateRandomInt(){
 }
 
 function startTimer(iterations){
-    const intervalHandler = setInterval(timerIncrementer, 100);
+    const intervalHandler = setInterval(timerIncrementer, 1000);
     function timerIncrementer(){
         timer.textContent = currentValue++
         if(currentValue > iterations){
