@@ -1,20 +1,35 @@
 
 
+//ELEMENT BUTTON -- toggle numberContainer / timer
 const button = document.querySelector('button');
-const numberGrid = document.querySelector('.number-grid')
-const numberContainer = document.getElementById('number-container')
-const timer = document.querySelector('.timer')
+//to execute the other function respect the precedently executed
 let buttonConditioner = true
-let currentValue = parseInt(timer.textContent)
-const randomArray = []
-const arrayLength = 5
+//istructions
 const text = document.querySelector('h1')
+//container of numberGrid
+const numberContainer = document.getElementById('number-container')
+//container of generated number solts
+const numberGrid = document.querySelector('.number-grid')
+//container for the clock
+const timer = document.querySelector('.timer')
+//timer time to int
+let currentValue = parseInt(timer.textContent)
+//array of random ints < 50
+const randomArray = []
+//number of random numbers
+const arrayLength = 5
 
-
+/*
+*   returns a random int >0 and <50
+*   @returns {number}
+*/
 function generateRandomInt(){
     return Math.floor(Math.random()*50)
 }
-
+/*
+*   Starts a timer and at the end toggles the interface and reset fields for user input
+*   @param {number} iterations - number of seconds to set timer
+*/
 function startTimer(iterations){
     const intervalHandler = setInterval(timerIncrementer, 1000);
     function timerIncrementer(){
@@ -22,12 +37,17 @@ function startTimer(iterations){
         if(currentValue > iterations){
             clearInterval(intervalHandler)
             interfaceToggler()
-            userInput()
+            text.textContent = 'Write the correct sequence:'
+            document.querySelectorAll('input[type="number"]').forEach(element => {
+                element.value = ''
+            });
         }
     }
 
 }
-
+/*
+*   changes the display status of the timer and the number container true => false, true => false
+*/
 function interfaceToggler(){
     if(timer.classList.contains('d-none')){
         timer.classList.replace('d-none','d-flex')
@@ -38,24 +58,20 @@ function interfaceToggler(){
     }
 }
 
-function userInput(){
-    const iconSlotAll = document.querySelectorAll('input[type="number"]')
-
-    iconSlotAll.forEach(element => {
-        element.value = ''
-    });
-    text.textContent = 'Write the correct sequence:'
-  
-}
-
+/*
+*   generates the random numbers array and writes them into slots
+*/
 function numberGridGenerator(){
     for (let i = 0; i < arrayLength; i++) {
         randomArray.push(generateRandomInt())
         createNumberSlot(randomArray[i], numberGrid)
     }
-    
 }
-
+/*
+*   Generates a new slot containing random number and appends it to parent container
+*   @param {number} inputNumber - random input number
+*   @param {HTMLElement} targetContainer - container to append the input number
+*/
 function createNumberSlot(inputNumber, targetContainer){
     const numberSlot = document.createElement('input')
     numberSlot.type = 'number'
@@ -63,7 +79,10 @@ function createNumberSlot(inputNumber, targetContainer){
     numberSlot.classList.add('p-3','bg-light','rounded','shadow', 'number-slot')
     targetContainer.appendChild(numberSlot)
 }
-
+/*
+*   Checks if the inserted numbers are equal to the generated ones, clones slots and write in new slots the generated random numbers array
+*   Generates new button for refresh page
+*/
 function checkNumbers(){
     const iconSlotAll = document.querySelectorAll('input[type="number"]')
     numberContainer.removeChild(button);
@@ -74,7 +93,6 @@ function checkNumbers(){
         createNumberSlot(randomArray[i], newContainer)
         if(parseInt(element.value) === randomArray[i])
             correctAnswers++
-            element.style.backgroundColor = 'green'
         if(correctAnswers === randomArray.length)
             text.textContent = 'YOU WON!!!'
         else
@@ -92,10 +110,10 @@ function checkNumbers(){
     numberContainer.appendChild(refreshButton)
 }
 
-
+//write number grid
 numberGridGenerator()
 
-
+//set listener to button
 button.addEventListener('click', ()=>{
     if(buttonConditioner){
         interfaceToggler()
